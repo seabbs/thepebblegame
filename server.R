@@ -38,6 +38,7 @@ shinyServer(function(input, output) {
     sim_sum() %>% summary_table
   })
   
+  
   ## Set up downloadable scripts
   output$downloadData1 <- downloadHandler(filename = "pebble_game.R",
                                           content = function(file) {
