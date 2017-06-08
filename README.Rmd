@@ -23,7 +23,7 @@ Whilst the web app fully captures the dynamics of the pebble game it may be usef
 ### What you will need
 
 - A bag or box (it is important that the pebbles cannot be seen).
-- A set of pebbles/counters etc of 2 different colours (these represent those who are vaccinated versus unvaccinated).
+- A set of pebbles/counters etc. of 2 different colours (these represent those who are vaccinated versus unvaccinated).
 - Some paper to note down your results.
 
 ### Set up
@@ -41,13 +41,13 @@ To play the game you must pick some basic parameters that define your pebble pop
 1. Pick pebbles from the bag equal to the number in the first generation times the number that each diseased pebble infects.
 2. Count the number of pebbles that are unvaccinated that you have picked, these are the next generation of infected pebbles (note this number down).
 3. For the new generation multiply the number in the new generation against the number that each diseased pebble infects and pick this many pebbles from the bag.
-4. Repeat steps 2. and 3. until you pick no unvaccinaated pebbles or until the bag is empty.
+4. Repeat steps 2. and 3. until you pick no unvaccinated pebbles or until the bag is empty.
 
 ### Some suggested questions
 
 - Look up some real world disease reproduction numbers (the number that each diseased pebble infects). What effect does varying this have?
 - For a given reproduction number what effect does varying the proportion of vaccinated pebbles have?
-- What happens if you repeat the game using the same parameters mulitple times? Can you explain this? 
+- What happens if you repeat the game using the same parameters multiple times? Can you explain this? 
 
 ## Installing the shiny app locally
 
