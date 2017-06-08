@@ -136,7 +136,9 @@ multi_sim_pebble_game <- function(r0,
     return(df)
   }
   ) 
-      
+ ## clean up table
+  df <- df %>% 
+    mutate(generation = as.integer(generation))
  return(df)
 }
 

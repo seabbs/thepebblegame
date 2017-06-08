@@ -5,6 +5,7 @@ library(tidyverse)
 library(plotly)
 library(prettypublisher)
 
+
 sidebar <- dashboardSidebar(
   hr(),
   sidebarMenu(id="tabs",
@@ -75,14 +76,19 @@ body <- dashboardBody(
                          footer = "Plot of each simulated game, overlayed with a trend line.",
                          status = "primary", 
                          solidHeader = TRUE),
-                     box(width = NULL,
-                         tableOutput("pebble_table"),
-                         title = "Summary Table",
-                         footer = "Summary statistics for the pebble game.",
-                         collapsible = TRUE, 
-                         solidHeader = TRUE, 
-                         status = "primary")
-              )
+                     tabBox( width = NULL,
+                             tabPanel(title = "Summary Table",
+                                      id = "tabletab1",
+                                      tableOutput("pebble_table"),
+                                      footer = "Summary statistics for the pebble game."
+                             ),
+                             tabPanel(title = "Simulation Table",
+                                      id = "tabletab2",
+                                      dataTableOutput("results_table"),
+                                      downloadButton('downloadDatatable', 'Download')
+                                      )
+                     )
+                     )
             )
     ),
     tabItem(tabName = "pebble_game_code",

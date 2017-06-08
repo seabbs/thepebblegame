@@ -24,12 +24,20 @@ shinyServer(function(input, output) {
     return(sim)
   })
   
+  ## serve results table
+  output$results_table <- renderDataTable({
+    sim_sum()
+  },
+  options = list(
+    pageLength = 10)
+  )
+  
+  ## Serve results plot
   output$pebble_plot <- renderPlot({
     ## Run simulations, summarise and plot see pebble_game.R
     plot <- sim_sum() %>%
       plot_pebbles(y = input$sumstat)
     
-  #  ggplotly(plot) %>% layout(autosize = TRUE)
     plot
   })
 
@@ -38,7 +46,12 @@ shinyServer(function(input, output) {
     sim_sum() %>% summary_table
   })
   
-  
+  ## Set up downloadbale data
+  output$downloadDatatable <- downloadHandler(filename = "pebble_game_sim_results.csv",
+                                              content = function(file) {
+                                                write.csv(sim_sum(), file)
+                                              }
+  )
   ## Set up downloadable scripts
   output$downloadData1 <- downloadHandler(filename = "pebble_game.R",
                                           content = function(file) {
