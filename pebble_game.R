@@ -114,12 +114,12 @@ pebble_game <- function(r0,
 
 
 ## Function to run multiple simulations of the pebble game
-multi_sim_pebble_game <- function(r0 = 3, 
-                                  no_in_first_gen = 1,
-                                  prop_vac = 0.6, 
-                                  population = 1000,
-                                  simulations = 100,
-                                  verbose = FALSE) {
+multi_sim_pebble_game <- function(r0, 
+                                  no_in_first_gen,
+                                  prop_vac, 
+                                  population,
+                                  simulations,
+                                  verbose) {
   
   df <- map_df(1:simulations, function(sim) {
     if (verbose) {
@@ -173,8 +173,27 @@ plot_pebbles <- function(df, y) {
   return(plot)
 }
 
+## Wrap everything into a wrapper function for portability
+sim_then_plot_pebble_game <- function(r0 = 3, 
+                                      no_in_first_gen = 1,
+                                      prop_vac = 0.6, 
+                                      population = 1000,
+                                      simulations = 100,
+                                      verbose = FALSE,
+                                      y = "`No. of pebbles`") {
+  plot <- multi_sim_pebble_game(r0 = r0, 
+                                no_in_first_gen = no_in_first_gen,
+                                prop_vac = prop_vac, 
+                                population = population,
+                                simulations = simulations,
+                                verbose = verbose) %>% 
+    summarise_pebble_game_sim %>% 
+    plot_pebbles(y = y)
+  return(plot)
+}
+
 ## Summary of functions
-## df <- multi_sim_pebble_game() 
+## df <- multi_sim_pebble_game(r0 = 3, no_in_first_gen = 1,prop_vac = 0.6, population = 1000,simulations = 100, verbose = FALSE) 
 ## df_count <- df %>% summarise_pebble_game_sim
 ## plot_pebbles(df_count, y = "`No. of pebbles`") %>% ggplotly
 ## plot_pebbles(df_count, y = "`Cumulative no. of pebbles`") %>% ggplotly
