@@ -37,4 +37,22 @@ shinyServer(function(input, output) {
     ## generate summary df
     sim_sum() %>% summary_table
   })
+  
+  ## Set up downloadable scripts
+  output$downloadData1 <- downloadHandler(filename = "pebble_game.R",
+                                          content = function(file) {
+                                            file.copy("pebble_game.R", file, overwrite = TRUE)
+                                            }
+                                          )
+  output$downloadData2 <- downloadHandler(filename = "ui.R",
+                                          content = function(file) {
+                                            file.copy("ui.R", file, overwrite = TRUE)
+                                            }
+                                          )
+  output$downloadData3 <- downloadHandler(filename = "server.R",
+                                          content = function(file) {
+                                            file.copy("server.R", file, overwrite = TRUE)
+                                            }
+                                          )
+  
 })
