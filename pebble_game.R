@@ -1,5 +1,6 @@
 ### Pebble game outline
 library(tidyverse)
+library(prettypublisher)
 
 ### Input
 ## Number of simulations - slider
@@ -119,7 +120,7 @@ multi_sim_pebble_game <- function(r0,
                                   prop_vac, 
                                   population,
                                   simulations,
-                                  verbose) {
+                                  verbose = FALSE) {
   
   df <- map_df(1:simulations, function(sim) {
     if (verbose) {
@@ -173,6 +174,61 @@ plot_pebbles <- function(df, y) {
   return(plot)
 }
 
+## Add a summary statistic
+add_sum_stat <- function(df, stat_vect, sum_measure) {
+  df <- df %>% 
+    add_row(`Summary Measure` = sum_measure,
+            Mean = stat_vect %>% 
+              mean,
+            Median = stat_vect %>% 
+              median,
+            `25%` = stat_vect %>% 
+              quantile(probs = 0.25),
+            `75%` = stat_vect %>% 
+              quantile(probs = 0.75))
+  
+  return(df)
+}
+## Make table of summary data
+## mean, medium, CI of generations reached
+## 
+summary_table <- function(df) {
+  
+  ## Set up dataframe
+  sum_tab <- data_frame(`Summary Measure` = NA, Mean = NA, Median = NA, `25%` = NA, `75%` = NA)
+  
+  ## No. in a generation
+  sum_tab <- sum_tab %>% 
+    add_sum_stat(stat_vect = df$`No. of pebbles`, 
+                 sum_measure = "No. in a generation")
+  
+  ## no. of generations
+  no_of_generations <- df %>% 
+    group_by(Simulation) %>% 
+    summarise(no_of_gen = max(Generation))
+  
+  sum_tab <- sum_tab %>% 
+    add_sum_stat(stat_vect = no_of_generations$no_of_gen, 
+                 sum_measure = "No. of generations")
+  
+  ## Totol no. of infected pebbles
+  total_no_infected_pebbles <- df %>% 
+    group_by(Simulation) %>% 
+    summarise(total_infect = max(`Cumulative no. of pebbles`))
+  
+  sum_tab <- sum_tab %>% 
+    add_sum_stat(stat_vect = total_no_infected_pebbles$total_infect, 
+                 sum_measure = "Total no. of infected")
+  
+  ## Clear first row
+  sum_tab <- sum_tab %>% na.omit
+  
+  ##  Tidy results
+  sum_tab <- sum_tab %>% 
+    mutate_each(funs(pretty_round(., digits =0)), Mean, Median, `25%`, `75%`)
+  
+  return(sum_tab)
+}
 ## Wrap everything into a wrapper function for portability
 sim_then_plot_pebble_game <- function(r0 = 3, 
                                       no_in_first_gen = 1,

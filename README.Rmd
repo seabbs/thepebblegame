@@ -58,6 +58,8 @@ install.packages("shiny")
 install.packages("shinydashboard")
 install.packages("tidyverse")
 install.packages("plotly")
+install.packages('devtools')
+devtools::install_github('seabbs/prettypublisher')
 ```
 
 To run the app open the `ui.R` file and press run, depending on your computer this may take some time. Enjoy playing the pebble game!

@@ -3,7 +3,7 @@ library(shiny)
 library(shinydashboard)
 library(tidyverse)
 library(plotly)
-
+library(prettypublisher)
 
 sidebar <- dashboardSidebar(
   hr(),
@@ -15,8 +15,7 @@ sidebar <- dashboardSidebar(
                        menuSubItem("pebble_game.R", tabName = "pebble_game_code", icon = icon("angle-right")),
                        menuSubItem("ui.R", tabName = "ui", icon = icon("angle-right")),
                        menuSubItem("server.R", tabName = "server", icon = icon("angle-right"))
-              ),
-              menuItem("About", tabName = "about", icon = icon("question"))
+              )
   ),
   hr()
 )
@@ -30,47 +29,67 @@ body <- dashboardBody(
     tabItem(tabName = "pebble_game",
             fluidRow(
               column(width = 4, 
-                     tabBox( width = NULL,
-                             tabPanel(h5("Game Parameters"),
-                                      sliderInput("r0",
-                                                  "Reproduction no.:",
-                                                  min = 0,
-                                                  max = 50,
-                                                  value = 3),
-                                      sliderInput("no_in_first_gen",
-                                                  "No. in first generation:",
-                                                  min = 1,
-                                                  max = 50,
-                                                  value = 1),
-                                      sliderInput("prop_vac",
-                                                  "Proportion vaccinated:",
-                                                  min = 0,
-                                                  max = 1,
-                                                  value = 0.6),
-                                      sliderInput("population",
-                                                  "No. of pebbles:",
-                                                  min = 1,
-                                                  max = 1000,
-                                                  value = 100),
-                                      sliderInput("simulations",
-                                                  "No. of simulations:",
-                                                  min = 1,
-                                                  max = 1000,
-                                                  value = 10),
-                                      selectInput("sumstat", 
-                                                  "Summary statistic to plot:",
-                                                  list(`No. of pebbles` = 
-                                                         "`No. of pebbles`",
-                                                       `Cumulative no. of pebbles` = 
-                                                         "`Cumulative no. of pebbles`")
-                                      ),
-                                      submitButton("Apply changes")
-                             )
-                     )),
+                     box( width = NULL,
+                          sliderInput("r0",
+                                      "Reproduction no.:",
+                                      min = 0,
+                                      max = 50,
+                                      value = 3),
+                          sliderInput("no_in_first_gen",
+                                      "No. in first generation:",
+                                      min = 1,
+                                      max = 50,
+                                      value = 1),
+                          sliderInput("prop_vac",
+                                      "Proportion vaccinated:",
+                                      min = 0,
+                                      max = 1,
+                                      value = 0.6),
+                          sliderInput("population",
+                                      "No. of pebbles:",
+                                      min = 1,
+                                      max = 1000,
+                                      value = 50),
+                          sliderInput("simulations",
+                                      "No. of simulations:",
+                                      min = 1,
+                                      max = 1000,
+                                      value = 10),
+                          selectInput("sumstat", 
+                                      "Summary statistic to plot:",
+                                      list(`No. of pebbles` = 
+                                             "`No. of pebbles`",
+                                           `Cumulative no. of pebbles` = 
+                                             "`Cumulative no. of pebbles`")
+                          ),
+                          submitButton("Apply changes"), 
+                          title = 'Game Parameters', 
+                          status = "primary", solidHeader = TRUE,
+                          collapsible = TRUE
+                     ),
+                     box(width = NULL,
+                         title = "Interpreting your Results",
+                         collapsible = TRUE, 
+                         solidHeader = TRUE, 
+                         status = "primary",
+                         collpased = TRUE)),
               column(width = 8,
-                     box(width = NULL, plotlyOutput("pebble_plot", height = "auto", width = "auto"), collapsible = TRUE,
-                           title = "Plot", status = "primary", solidHeader = TRUE)
-              ))
+                     box(width = NULL, 
+                         plotOutput("pebble_plot"),
+                         collapsible = TRUE,
+                         title = "Plot",
+                         footer = "Plot of each simulated game, overlayed with a trend line.",
+                         status = "primary", 
+                         solidHeader = TRUE),
+                     box(width = NULL,
+                         tableOutput("pebble_table"),
+                         title = "Summary Table",
+                         footer = "Summary statistics for the pebble game.",
+                         collapsible = TRUE, 
+                         solidHeader = TRUE, 
+                         status = "primary")
+              )
+            )
     ),
     tabItem(tabName = "pebble_game_code",
             box( width = NULL, status = "primary", solidHeader = TRUE, title="Simulation Functions",                
@@ -92,9 +111,6 @@ body <- dashboardBody(
                  br(),br(),
                  pre(includeText("server.R"))
             )
-    ),
-    tabItem(tabName = "about",
-            includeMarkdown("about.Rmd")
     )
   )
 )
