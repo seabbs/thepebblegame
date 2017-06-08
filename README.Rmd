@@ -55,6 +55,7 @@ To install and run the shiny app locally on your own computer you will need to f
 
 ```{r, eval = FALSE}
 install.packages("shiny")
+install.packages("shinydashboard")
 install.packages("tidyverse")
 install.packages("plotly")
 ```
