@@ -24,7 +24,7 @@ body <- dashboardBody(
   tabItems(
     tabItem(tabName = "readme",
             withMathJax(), 
-            includeMarkdown("README.Rmd")
+            includeMarkdown("README.md")
     ),
     tabItem(tabName = "pebble_game",
             fluidRow(

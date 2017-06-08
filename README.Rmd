@@ -14,7 +14,14 @@ knitr::opts_chunk$set(
 
 # thepebblegame
 
-[thepebblegame](https://seabbs.shinyapps.io/thepebblegame/) is a simple shiny application that simulates the pebble game. This is a simple game that has been developed by [BIDD](http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/) at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. 
+[thepebblegame](https://seabbs.shinyapps.io/thepebblegame/) is a shiny application that simulates the pebble game. This is a simple game that has been developed by [BIDD](http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/) at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccination and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease. 
+
+## Some suggested questions
+
+- Look up some real world disease reproduction numbers (the number that each diseased pebble infects). What effect does varying this have?
+- For a given reproduction number what effect does varying the proportion of vaccinated pebbles have?
+- What happens if you repeat the game using the same parameters multiple times? Can you explain this? 
+- How does population size effect the spread of the disease?
 
 ## Playing the game for yourself
 
@@ -43,15 +50,9 @@ To play the game you must pick some basic parameters that define your pebble pop
 3. For the new generation multiply the number in the new generation against the number that each diseased pebble infects and pick this many pebbles from the bag.
 4. Repeat steps 2. and 3. until you pick no unvaccinated pebbles or until the bag is empty.
 
-### Some suggested questions
-
-- Look up some real world disease reproduction numbers (the number that each diseased pebble infects). What effect does varying this have?
-- For a given reproduction number what effect does varying the proportion of vaccinated pebbles have?
-- What happens if you repeat the game using the same parameters multiple times? Can you explain this? 
-
 ## Installing the shiny app locally
 
-To install and run the shiny app locally on your own computer you will need to first install [R](https://www.r-project.org/), it is also suggested that you install [Rstudio](https://www.rstudio.com/products/rstudio/download/). After downloading the source code from [this repository](https://www.github.com/seabbs/thepebblegame) click on the .Rprof file, this will open an Rstudio window. Type the following code into the command line;
+To install and run the shiny app locally on your own computer you will need to first install [R](https://www.r-project.org/), it is also suggested that you install [Rstudio](https://www.rstudio.com/products/rstudio/download/). After downloading the source code from [this repository](https://www.github.com/seabbs/thepebblegame) click on the `thepebblegame.Rprof` file, this will open an Rstudio window. Type the following code into the command line;
 
 ```{r, eval = FALSE}
 install.packages("shiny")
