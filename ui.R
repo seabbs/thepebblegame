@@ -66,8 +66,9 @@ body <- dashboardBody(
                           ),
                           submitButton("Apply changes"), 
                           title = 'Game Parameters', 
-                          status = "primary", solidHeader = TRUE,
-                          collapsible = TRUE
+                          status = "primary", solidHeader = FALSE,
+                          collapsible = TRUE,
+                          collapsed = TRUE
                      )),
               column(width = 8,
                      box(width = NULL, 
@@ -76,14 +77,16 @@ body <- dashboardBody(
                          title = "Plot",
                          footer = "Plot of each simulated game, overlayed with a trend line.",
                          status = "primary", 
-                         solidHeader = TRUE),
+                         solidHeader = FALSE),
                      tabBox( width = NULL,
-                             tabPanel(title = "Summary Table",
+                             title = "Tables",
+                             side = "right",
+                             tabPanel(title = "Summary Statistics",
                                       id = "tabletab1",
                                       tableOutput("pebble_table"),
                                       footer = "Summary statistics for the pebble game."
                              ),
-                             tabPanel(title = "Simulation Table",
+                             tabPanel(title = "Simulation Data",
                                       id = "tabletab2",
                                       dataTableOutput("results_table"),
                                       downloadButton('downloadDatatable', 'Download')
@@ -129,8 +132,9 @@ body <- dashboardBody(
                                              "`Cumulative no. of pebbles`")
                           ), 
                           title = 'Disease Parameters', 
-                          status = "primary", solidHeader = TRUE,
-                          collapsible = TRUE
+                          status = "primary", solidHeader = FALSE,
+                          collapsible = TRUE,
+                          collapsed = TRUE
                      )),
               column(width = 8,
                      box(width = NULL, 
@@ -138,7 +142,7 @@ body <- dashboardBody(
                          title = "Comparision Plot",
                          footer = "Plot of each simulated disease, overlayed with a trend line.",
                          status = "primary", 
-                         solidHeader = TRUE),
+                         solidHeader = FALSE),
                      tabBox( width = NULL,
                              title = "Primary Disease",
                              side = "right",
