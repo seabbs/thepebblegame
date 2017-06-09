@@ -1,6 +1,5 @@
 ### Pebble game outline
 library(tidyverse)
-library(prettypublisher)
 
 ### Input
 ## Number of simulations - slider
@@ -90,7 +89,7 @@ pebble_game <- function(r0,
                       r0 = r0,
                       no_in_first_gen =  no_in_first_gen)
     
-    ## Chec if there are any unvaccinated pebbles left
+    ## Check if there are any unvaccinated pebbles left
     no_left_to_infect <- pebbles %>% 
       filter(is.na(generation),
              vaccinated %in% "no") %>% 
@@ -159,7 +158,7 @@ summarise_pebble_game_sim <- function(df) {
 }
 
 
-## Make comparision ggplot to plotly plot
+## Make ggplot for playing the game 
 plot_pebbles <- function(df, y) {
   
   df %>% 
@@ -172,6 +171,22 @@ plot_pebbles <- function(df, y) {
               aes(group = Simulation)) +
     geom_smooth(method = "loess", alpha = 0.6) + 
     theme_minimal() -> plot
+  
+  return(plot)
+}
+
+##  Make a ggplot for comparing diseases
+plot_pebbles_compare <- function(df, y) {
+  
+  df %>% 
+    ggplot(aes_string(x = "Generation", y = y, colour = "Disease", group = "interaction(Disease, Simulation)")) +
+    geom_point(alpha = 0.2, 
+               colour = "dodgerblue2") +
+    geom_line(alpha = 0.2) +
+    geom_smooth(method = "loess", alpha = 0.6, aes(group = Disease)) +
+    scale_colour_manual(values=c("dodgerblue2", "firebrick2")) +
+    theme_minimal() +
+    theme(legend.position = "bottom") -> plot
   
   return(plot)
 }
@@ -227,7 +242,7 @@ summary_table <- function(df) {
   
   ##  Tidy results
   sum_tab <- sum_tab %>% 
-    mutate_each(funs(pretty_round(., digits =0)), Mean, Median, `25%`, `75%`)
+    mutate_each(funs(round(., digits =0)), Mean, Median, `25%`, `75%`)
   
   return(sum_tab)
 }

@@ -58,9 +58,7 @@ To install and run the shiny app locally on your own computer you will need to f
 install.packages("shiny")
 install.packages("shinydashboard")
 install.packages("tidyverse")
-install.packages("plotly")
-install.packages("devtools")
-devtools::install_github("seabbs/prettypublisher")
+install.packagess("rmarkdown")
 ```
 
 To run the app open the `ui.R` file and press run, depending on your computer this may take some time. Enjoy playing the pebble game!
