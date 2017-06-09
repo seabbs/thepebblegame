@@ -92,11 +92,6 @@ shinyServer(function(input, output) {
     plot
   })
 
-  output$pebble_table <- renderTable({
-    ## generate summary df
-    sim_sum() %>% summary_table
-  })
-  
   ## Serve results plot for comparing disease
   output$com_plot <- renderPlot({
     ## Bind data
@@ -116,19 +111,25 @@ shinyServer(function(input, output) {
   ## Play the game
   output$pebble_table <- renderTable({
     ## generate summary df
-    sim_sum() %>% summary_table
+    sim_sum() %>% summary_table(population = input$population,
+                                prop_vac = input$prop_vac
+                                )
   })
   
   ## Primary disease
   output$prim_sum_tab <- renderTable({
     ## generate summary df
-    prim_sim() %>% summary_table
+    prim_sim() %>% summary_table(population = input$population_com,
+                                 prop_vac = input$prop_vac_com
+    )
   })
   
   ## Secondary disease
   output$sec_sum_tab <- renderTable({
     ## generate summary df
-    sec_sim() %>% summary_table
+    sec_sim() %>% summary_table(population = input$population_com,
+                                prop_vac = input$prop_vac_com
+    )
   })
   
   ## Set up downloadbale data

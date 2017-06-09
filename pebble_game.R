@@ -141,20 +141,33 @@ multi_sim_pebble_game <- function(r0,
  return(df)
 }
 
-## generate summaries by generation for data
+## generate summaries by generation for data - count
 summarise_pebble_game_sim <- function(df) {
-  df <- df %>% 
+  df_count <- df %>% 
     filter(vaccinated %in% "no",
            !is.na(generation)) %>% 
     group_by(simulation, generation) %>% 
-    count %>% 
+    count
+ 
+  ## Add in next generation for which no pebbles were/could be
+  ## selected
+  zero_generation <- df_count %>%
+    group_by(simulation) %>% 
+    filter(generation == max(generation)) %>%
+    mutate(generation = generation + 1,
+              n = 0)
+    
+  ## Calculate cumulative sum
+  df_cum <- df_count %>% 
+    bind_rows(zero_generation) %>% 
+    group_by(simulation) %>% 
     mutate(cumsum = cumsum(n)) %>%
     rename(Generation = generation,
            Simulation = simulation,
            `No. of pebbles` = n,
            `Cumulative no. of pebbles` = cumsum)
   
-  return(df)
+  return(df_cum)
 }
 
 
@@ -209,8 +222,9 @@ add_sum_stat <- function(df, stat_vect, sum_measure) {
 ## Make table of summary data
 ## mean, medium, CI of generations reached
 ## 
-summary_table <- function(df) {
-  
+summary_table <- function(df, 
+                          population,
+                          prop_vac) {
   ## Set up dataframe
   sum_tab <- data_frame(`Summary Measure` = NA, Mean = NA, Median = NA, `25%` = NA, `75%` = NA)
   
@@ -237,12 +251,21 @@ summary_table <- function(df) {
     add_sum_stat(stat_vect = total_no_infected_pebbles$total_infect, 
                  sum_measure = "Total no. of infected")
   
+  ## Number vaccinated
+  no_unvac <- round((1 - prop_vac) * population, digits = 0)
+  
+  ## Calculate percentage of susceptible pop that are infected
+  ## Tidy results
+  sum_tab <- sum_tab %>%
+    mutate_each(funs(as.character(as.integer(round(., digits = 0)))), Mean, Median, `25%`, `75%`) %>% 
+    bind_rows(sum_tab %>%
+                filter(`Summary Measure` %in% "Total no. of infected") %>% 
+                mutate_each(funs(paste0(round(. / no_unvac * 100, digits = 0), "%")), Mean, Median, `25%`, `75%`) %>% 
+                mutate(`Summary Measure` = "Percentage of unvaccinated infected")
+    )
+
   ## Clear first row
   sum_tab <- sum_tab %>% na.omit
-  
-  ##  Tidy results
-  sum_tab <- sum_tab %>% 
-    mutate_each(funs(round(., digits =0)), Mean, Median, `25%`, `75%`)
   
   return(sum_tab)
 }
@@ -266,7 +289,7 @@ sim_then_plot_pebble_game <- function(r0 = 3,
 }
 
 ## Summary of functions
-## df <- multi_sim_pebble_game(r0 = 3, no_in_first_gen = 1,prop_vac = 0.6, population = 1000,simulations = 100, verbose = FALSE) 
+## df <- multi_sim_pebble_game(r0 = 3, no_in_first_gen = 1,prop_vac = 0.6, population = 1000, simulations = 100, verbose = FALSE) 
 ## df_count <- df %>% summarise_pebble_game_sim
 ## plot_pebbles(df_count, y = "`No. of pebbles`") %>% ggplotly
 ## plot_pebbles(df_count, y = "`Cumulative no. of pebbles`") %>% ggplotly

@@ -64,8 +64,7 @@ body <- dashboardBody(
                                            `No. of pebbles` = 
                                              "`No. of pebbles`")
                           ),
-                          actionButton("play_button", "Apply changes",
-                                       icon("paper-plane"), 
+                          actionButton("play_button", "Simulate", 
                                        style="color: #fff; background-color: #337ab7; border-color: #2e6da4"), 
                           title = 'Game Parameters', 
                           status = "primary", solidHeader = FALSE,
@@ -138,8 +137,7 @@ body <- dashboardBody(
                                            `No. of pebbles` = 
                                              "`No. of pebbles`")
                           ),
-                          actionButton("compare_button", "Apply changes",
-                                       icon("paper-plane"), 
+                          actionButton("compare_button", "Simulate", 
                                        style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
                           title = 'Disease Parameters', 
                           status = "primary", solidHeader = FALSE,
