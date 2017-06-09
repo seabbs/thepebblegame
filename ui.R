@@ -51,7 +51,7 @@ body <- dashboardBody(
                                       "No. of pebbles:",
                                       min = 1,
                                       max = 1000,
-                                      value = 50),
+                                      value = 100),
                           sliderInput("simulations",
                                       "No. of simulations:",
                                       min = 1,
