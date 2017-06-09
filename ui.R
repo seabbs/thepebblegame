@@ -8,10 +8,11 @@ library(prettypublisher)
 
 sidebar <- dashboardSidebar(
   hr(),
-  sidebarMenu(id="tabs",
+  sidebarMenu(id = "tabs",
               menuItem("Play the game", tabName="pebble_game", icon=icon("line-chart"), selected=TRUE),
+              menuItem("Compare diseases", tabName = "disease_com", icon = icon("random")),
               menuItem("How to play the game", tabName = "readme", icon=icon("mortar-board")),
-              menuItem("Code",  icon = icon("file-text-o"),
+              menuItem("Code",  icon = icon("code"),
                        menuSubItem("Github", href = "https://github.com/seabbs/thepebblegame", icon = icon("github")),
                        menuSubItem("pebble_game.R", tabName = "pebble_game_code", icon = icon("angle-right")),
                        menuSubItem("ui.R", tabName = "ui", icon = icon("angle-right")),
@@ -91,6 +92,78 @@ body <- dashboardBody(
                      )
             )
     ),
+    tabItem(tabName = "disease_com",
+            fluidRow(
+              column(width = 4, 
+                     box( width = NULL,
+                          sliderInput("r0_com",
+                                      "Reproduction no.:",
+                                      min = 0,
+                                      max = 50,
+                                      value = 3),
+                          sliderInput("no_in_first_gen_com",
+                                      "No. in first generation:",
+                                      min = 1,
+                                      max = 50,
+                                      value = 1),
+                          sliderInput("prop_vac_com",
+                                      "Proportion vaccinated:",
+                                      min = 0,
+                                      max = 1,
+                                      value = 0.6),
+                          sliderInput("population_com",
+                                      "No. of pebbles:",
+                                      min = 1,
+                                      max = 1000,
+                                      value = 50),
+                          sliderInput("simulations_com",
+                                      "No. of simulations:",
+                                      min = 1,
+                                      max = 1000,
+                                      value = 10),
+                          selectInput("sumstat_com", 
+                                      "Summary statistic to plot:",
+                                      list(`No. of pebbles` = 
+                                             "`No. of pebbles`",
+                                           `Cumulative no. of pebbles` = 
+                                             "`Cumulative no. of pebbles`")
+                          ), 
+                          title = 'Disease Parameters', 
+                          status = "primary", solidHeader = TRUE,
+                          collapsible = TRUE
+                     )),
+              column(width = 8,
+                     box(width = NULL, 
+                         collapsible = TRUE,
+                         title = "Comparision Plot",
+                         footer = "Plot of each simulated disease, overlayed with a trend line.",
+                         status = "primary", 
+                         solidHeader = TRUE),
+                     tabBox( width = NULL,
+                             title = "Primary Disease",
+                             side = "right",
+                             tabPanel(title = "Summary Table",
+                                      id = "tabletab1",
+                                      footer = "Summary statistics for the primary disease."
+                             ),
+                             tabPanel(title = "Simulation Table",
+                                      id = "tabletab2"
+                             )
+                     ),
+                     tabBox( width = NULL,
+                             title = "Secondary Disease",
+                             side = "right",
+                             tabPanel(title = "Summary Table",
+                                      id = "tabletab1",
+                                      footer = "Summary statistics for the primary disease."
+                             ),
+                             tabPanel(title = "Simulation Table",
+                                      id = "tabletab2"
+                             )
+                     )
+              )
+            )
+            ),
     tabItem(tabName = "pebble_game_code",
             box( width = NULL, status = "primary", solidHeader = TRUE, title="Simulation Functions",                
                  downloadButton('downloadData1', 'Download'),
