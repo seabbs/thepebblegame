@@ -59,11 +59,11 @@ body <- dashboardBody(
                                       value = 100),
                                  title = "How many pebbles do you want to simulate? Does this alter the trend, or does it just alter the epidemic size? Note: A high population will take longer to compute."
                                  ),
-                          tipify(sliderInput("simulations",
-                                      "No. of simulations:",
-                                      min = 1,
-                                      max = 1000,
-                                      value = 10),
+                          tipify(radioButtons("simulations",
+                                      label = "No. of simulations:",
+                                      choices = c(1, 10, 50, 100, 500, 1000),
+                                      selected = 10,
+                                      inline = TRUE),
                                  title = "How many times to repeat the game. What is the effect of increasing this? Note: A high number of simulations will take longer to compute"
                           ),
                           tipify(selectInput("sumstat", 
@@ -100,14 +100,14 @@ body <- dashboardBody(
                                       id = "tabletab1",
                                       tipify(tableOutput("pebble_table"),
                                              title = "Summary statistics for the pebble game. How does varying the parameters effect these? Do these summary measures match what you see on the plot above?",
-                                             placement = "left"
+                                             placement = "top"
                                       )
                              ),
                              tabPanel(title = "Simulation Data",
                                       id = "tabletab2",
                                       tipify(dataTableOutput("results_table"),
                                              title = "Simulation results from playing the pebble game, with your specified parameters. Download this with the button below and see what patterns you can find.",
-                                             placement = "left"
+                                             placement = "top"
                                       ),
                                       downloadButton('downloadDatatable', 'Download')
                                       )
@@ -152,11 +152,11 @@ body <- dashboardBody(
                                       value = 100),
                                  title = "How many pebbles do you want to simulate? Does this alter the trend, or does it just alter the epidemic size? Note: A high population will take longer to compute."
                           ),
-                          tipify(sliderInput("simulations_com",
-                                      "No. of simulations:",
-                                      min = 1,
-                                      max = 1000,
-                                      value = 10),
+                          tipify(radioButtons("simulations_com",
+                                              label = "No. of simulations:",
+                                              choices = c(1, 10, 50, 100, 500, 1000),
+                                              selected = 10,
+                                              inline = TRUE),
                                  title = "How many times to repeat the game. What is the effect of increasing this? Note: A high number of simulations will take longer to compute"
                           ),
                           tipify(selectInput("sumstat_com", 
@@ -206,7 +206,7 @@ body <- dashboardBody(
                              tabPanel(title = "Summary Table",
                                       tipify(tableOutput("prim_sum_tab"), 
                                              title = "Summary statistics for the pebble game, played with the primary disease. How does varying the parameters effect these? Do these summary measures match what you see on the plot above and how do they correspond with those from the secondary disease?",
-                                             placement = "left"
+                                             placement = "top"
                                       ),
                                       id = "tabletab1"
                                       ),
@@ -214,7 +214,7 @@ body <- dashboardBody(
                                       id = "tabletab2",
                                       tipify(dataTableOutput("prim_results_table"),
                                              title = "Simulation results from playing the pebble game with the primary disease, and your specified parameters. Download this with the button below and see what patterns you can find.",
-                                             placement = "left"
+                                             placement = "top"
                                       ),
                                       downloadButton("downloadPrimDatatable", "Download"))
                      ),
@@ -224,7 +224,7 @@ body <- dashboardBody(
                              tabPanel(title = "Summary Table",
                                       tipify(tableOutput("sec_sum_tab"),
                                              title = "Summary statistics for the pebble game, played with the secondary disease. How does varying the parameters effect these? Do these summary measures match what you see on the plot above and how do they correspond with those from the primary disease?",
-                                             placement = "left"
+                                             placement = "top"
                                       ),
                                       id = "tabletab1"
                              ),
@@ -232,7 +232,7 @@ body <- dashboardBody(
                                       id = "tabletab2",
                                       tipify(dataTableOutput("sec_results_table"),
                                              title = "Simulation results from playing the pebble game with the secondary disease, and your specified parameters. Download this with the button below and see what patterns you can find.",
-                                             placement = "left"
+                                             placement = "top"
                              ),
                                       downloadButton("downloadSecDatatable", "Download")
                              )
