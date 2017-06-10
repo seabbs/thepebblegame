@@ -149,13 +149,15 @@ summarise_pebble_game_sim <- function(df) {
     group_by(simulation, generation) %>% 
     count
  
-  ## Add in next generation for which no pebbles were/could be
-  ## selected
+  ## Added in generations for which no pebbles were infected
   zero_generation <- df_count %>%
     group_by(simulation) %>% 
     filter(generation == max(generation)) %>%
-    mutate(generation = generation + 1,
-              n = 0)
+    do(data_frame(simulation = .$simulation,
+            generation = seq(.$generation + 1, max(df_count$generation) + 1, 1),
+            n = 0
+            )
+    )
     
   ## Calculate cumulative sum
   df_cum <- df_count %>% 
@@ -235,7 +237,8 @@ summary_table <- function(df,
   
   ## no. of generations
   no_of_generations <- df %>% 
-    group_by(Simulation) %>% 
+    group_by(Simulation) %>%
+    filter(`No. of pebbles` > 0) %>%  
     summarise(no_of_gen = max(Generation))
   
   sum_tab <- sum_tab %>% 
