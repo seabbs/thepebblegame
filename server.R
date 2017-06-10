@@ -23,7 +23,7 @@ shinyServer(function(input, output) {
                                  prop_vac = input$prop_vac, 
                                  population = input$population,
                                  simulations = input$simulations) %>%
-      summarise_pebble_game_sim
+      summarise_pebble_game_sim(simulations = input$simulations)
     
     return(sim)
   })
@@ -38,7 +38,7 @@ shinyServer(function(input, output) {
                                  prop_vac = input$prop_vac_com, 
                                  population = input$population_com,
                                  simulations = input$simulations_com) %>%
-      summarise_pebble_game_sim
+      summarise_pebble_game_sim(simulations = input$simulations)
     
     return(prim_sim)
   })
@@ -53,7 +53,7 @@ shinyServer(function(input, output) {
                                  prop_vac = input$prop_vac_com, 
                                  population = input$population_com,
                                  simulations = input$simulations_com) %>%
-      summarise_pebble_game_sim
+      summarise_pebble_game_sim(simulations = input$simulations)
     
     return(sec_sim)
   })
@@ -92,6 +92,24 @@ shinyServer(function(input, output) {
     plot
   })
 
+  ## Serve primary disease plot
+  output$prim_plot <- renderPlot({
+    ## Run simulations, summarise and plot see pebble_game.R
+    plot <- prim_sim() %>%
+      plot_pebbles(y = input$sumstat)
+    
+    plot
+  })
+  ## Serve secondary disease plot
+  output$sec_plot <- renderPlot({
+    ## Run simulations, summarise and plot see pebble_game.R
+    plot <- sec_sim() %>%
+      plot_pebbles(y = input$sumstat,
+                   colour = "firebrick2")
+    
+    plot
+  })
+  
   ## Serve results plot for comparing disease
   output$com_plot <- renderPlot({
     ## Bind data

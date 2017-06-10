@@ -142,15 +142,27 @@ multi_sim_pebble_game <- function(r0,
 }
 
 ## generate summaries by generation for data - count
-summarise_pebble_game_sim <- function(df) {
+summarise_pebble_game_sim <- function(df, simulations) {
   df_count <- df %>% 
     filter(vaccinated %in% "no",
            !is.na(generation)) %>% 
     group_by(simulation, generation) %>% 
     count
  
+  ## Detect simmulations that have no intial cases
+  ## Add these to the data frame with a generation number of 1, and n = 0
+  df_count <- df_count %>% 
+    bind_rows(data_frame(simulation = 1:simulations,
+                                      generation = 1,
+                                      n = 0) %>% 
+    mutate(simulation = simulation %>% 
+             replace(simulation %in% unique(df_count$simulation), NA)
+           ) %>% 
+    na.omit
+    )
+  
   ## Added in generations for which no pebbles were infected
-  zero_generation <- df_count %>%
+  zero_generations <- df_count %>%
     group_by(simulation) %>% 
     filter(generation == max(generation)) %>%
     do(data_frame(simulation = .$simulation,
@@ -161,7 +173,7 @@ summarise_pebble_game_sim <- function(df) {
     
   ## Calculate cumulative sum
   df_cum <- df_count %>% 
-    bind_rows(zero_generation) %>% 
+    bind_rows(zero_generations) %>% 
     group_by(simulation) %>% 
     mutate(cumsum = cumsum(n)) %>%
     rename(Generation = generation,
@@ -174,17 +186,17 @@ summarise_pebble_game_sim <- function(df) {
 
 
 ## Make ggplot for playing the game 
-plot_pebbles <- function(df, y) {
+plot_pebbles <- function(df, y, colour =  "dodgerblue2") {
   
   df %>% 
     ggplot(aes_string(x = "Generation", y = y)) +
     geom_point(alpha = 0.2, 
-               colour = "dodgerblue2", 
+               colour = colour, 
                aes(group = Simulation)) +
     geom_line(alpha = 0.2, 
-              colour = "dodgerblue2", 
+              colour = colour, 
               aes(group = Simulation)) +
-    geom_smooth(method = "loess", alpha = 0.6) + 
+    geom_smooth(method = "loess", alpha = 0.6, colour = colour) + 
     theme_minimal() -> plot
   
   return(plot)
@@ -195,8 +207,7 @@ plot_pebbles_compare <- function(df, y) {
   
   df %>% 
     ggplot(aes_string(x = "Generation", y = y, colour = "Disease", group = "interaction(Disease, Simulation)")) +
-    geom_point(alpha = 0.2, 
-               colour = "dodgerblue2") +
+    geom_point(alpha = 0.2) +
     geom_line(alpha = 0.2) +
     geom_smooth(method = "loess", alpha = 0.6, aes(group = Disease)) +
     scale_colour_manual(values=c("dodgerblue2", "firebrick2")) +
