@@ -66,6 +66,9 @@ pebble_game <- function(r0,
                         prop_vac, 
                         population,
                         verbose) {
+  ## Check parameters
+  population <- population %>% as.numeric
+  
   ## number vaccinated
   no_vac <- round(prop_vac * population, digits = 0)
   
@@ -225,9 +228,9 @@ add_sum_stat <- function(df, stat_vect, sum_measure) {
               mean,
             Median = stat_vect %>% 
               median,
-            `25%` = stat_vect %>% 
+            `25% Quantile` = stat_vect %>% 
               quantile(probs = 0.25),
-            `75%` = stat_vect %>% 
+            `75% Quantile` = stat_vect %>% 
               quantile(probs = 0.75))
   
   return(df)
@@ -238,8 +241,11 @@ add_sum_stat <- function(df, stat_vect, sum_measure) {
 summary_table <- function(df, 
                           population,
                           prop_vac) {
+  ## Check parameters
+  population <- population %>% as.numeric
+  
   ## Set up dataframe
-  sum_tab <- data_frame(`Summary Measure` = NA, Mean = NA, Median = NA, `25%` = NA, `75%` = NA)
+  sum_tab <- data_frame(`Summary Measure` = NA, Mean = NA, Median = NA, `25% Quantile` = NA, `75% Quantile` = NA)
   
   ## No. in a generation
   sum_tab <- sum_tab %>% 
@@ -271,10 +277,10 @@ summary_table <- function(df,
   ## Calculate percentage of susceptible pop that are infected
   ## Tidy results
   sum_tab <- sum_tab %>%
-    mutate_each(funs(as.character(as.integer(round(., digits = 0)))), Mean, Median, `25%`, `75%`) %>% 
+    mutate_each(funs(as.character(as.integer(round(., digits = 0)))), Mean, Median, `25% Quantile`, `75% Quantile`) %>% 
     bind_rows(sum_tab %>%
                 filter(`Summary Measure` %in% "Total no. of infected") %>% 
-                mutate_each(funs(paste0(round(. / no_unvac * 100, digits = 0), "%")), Mean, Median, `25%`, `75%`) %>% 
+                mutate_each(funs(paste0(round(. / no_unvac * 100, digits = 0), "%")), Mean, Median, `25% Quantile`, `75% Quantile`) %>% 
                 mutate(`Summary Measure` = "Percentage of unvaccinated infected")
     )
 

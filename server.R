@@ -8,7 +8,7 @@ library(tidyverse)
 source("pebble_game.R")
 
 ## Stop spurious warnings
-options(warn = -1)
+options(warn = - 1)
 
 shinyServer(function(input, output) {
 

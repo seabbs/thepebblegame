@@ -3,7 +3,7 @@
 thepebblegame
 =============
 
-[thepebblegame](https://seabbs.shinyapps.io/thepebblegame/) is a shiny application that simulates the pebble game. This is a simple game that has been developed by [BIDD](http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/) at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccination and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease.
+[The Pebble Game](https://seabbs.shinyapps.io/thepebblegame/) is a shiny application that simulates the pebble game. This is a simple game that has been developed by [BIDD](http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/) at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccination and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease.
 
 Some suggested questions
 ------------------------

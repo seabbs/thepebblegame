@@ -52,11 +52,11 @@ body <- dashboardBody(
                                       max = 1,
                                       value = 0.6),
                                  title = "The proportion of the population that have been vaccinated, the number that are vaccinated can be calulated by multiplying the proportion vaccinated by the population. Try to find the vaccination thresold at which an epidemic cannot occur."),
-                          tipify(sliderInput("population",
-                                      "No. of pebbles:",
-                                      min = 1,
-                                      max = 1000,
-                                      value = 100),
+                          tipify(radioButtons("population",
+                                              label = "No. of pebbles:",
+                                              choices = c(50, 100, 250, 500, 1000),
+                                              selected = 100,
+                                              inline = TRUE),
                                  title = "How many pebbles do you want to simulate? Does this alter the trend, or does it just alter the epidemic size? Note: A high population will take longer to compute."
                                  ),
                           tipify(radioButtons("simulations",
@@ -73,7 +73,7 @@ body <- dashboardBody(
                                            `No. of pebbles` = 
                                              "`No. of pebbles`")
                           ),
-                          title = "The cumulative number of pebbles gives the clearest picture of the final epidemic size. The number of pebbles shows how the epidemic evolves over time"
+                          title = "The cumulative number of pebbles (i.e. the rolling total) gives the clearest picture of the final epidemic size. The number of pebbles (in each generation) shows how the epidemic evolves over time"
                           ),
                           tipify(actionButton("play_button", "Simulate", 
                                        style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
@@ -145,11 +145,11 @@ body <- dashboardBody(
                                       max = 1,
                                       value = 0.6),
                                  title = "The proportion of the population that have been vaccinated, the number that are vaccinated can be calulated by multiplying the proportion vaccinated by the population. Try to find the vaccination thresold at which an epidemic cannot occur."),
-                          tipify(sliderInput("population_com",
-                                      "No. of pebbles:",
-                                      min = 1,
-                                      max = 1000,
-                                      value = 100),
+                          tipify(radioButtons("population_com",
+                                      label = "No. of pebbles:",
+                                      choices = c(50, 100, 250, 500, 1000),
+                                      selected = 100,
+                                      inline = TRUE),
                                  title = "How many pebbles do you want to simulate? Does this alter the trend, or does it just alter the epidemic size? Note: A high population will take longer to compute."
                           ),
                           tipify(radioButtons("simulations_com",
@@ -166,7 +166,7 @@ body <- dashboardBody(
                                            `No. of pebbles` = 
                                              "`No. of pebbles`")
                           ),
-                          title = "The cumulative number of pebbles gives the clearest picture of the final epidemic size. The number of pebbles shows how the epidemic evolves over time"
+                          title = "The cumulative number of pebbles (i.e. the rolling total) gives the clearest picture of the final epidemic size. The number of pebbles (in each generation) shows how the epidemic evolves over time"
                           ),
                           tipify(actionButton("compare_button", "Simulate", 
                                        style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
