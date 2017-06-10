@@ -1,6 +1,7 @@
 #Load packages
 library(shiny)
 library(shinydashboard)
+library(shinyBS)
 library(tidyverse)
 
 ## Source functions

@@ -1,6 +1,7 @@
 ## Load packages
 library(shiny)
 library(shinydashboard)
+library(shinyBS)
 library(tidyverse)
 library(rmarkdown)
 
@@ -32,40 +33,52 @@ body <- dashboardBody(
             fluidRow(
               column(width = 4, 
                      box( width = NULL,
-                          sliderInput("r0",
+                          tipify(sliderInput("r0",
                                       "Reproduction no.:",
                                       min = 1,
                                       max = 50,
                                       value = 3),
-                          sliderInput("no_in_first_gen",
+                                 title = "The basic reproduction rate (R0) is used to measure the transmission potential of a disease. It is thought of as the number of secondary infections produced by a typical case of an infection in a population that is totally susceptible."
+                                 ),
+                          tipify(sliderInput("no_in_first_gen",
                                       "No. in first generation:",
                                       min = 1,
                                       max = 50,
                                       value = 1),
-                          sliderInput("prop_vac",
+                                 title = "The number of infected pebbles introduced into the population. Does altering this have any effect on the epidemic dynamics?"),
+                          tipify(sliderInput("prop_vac",
                                       "Proportion vaccinated:",
                                       min = 0,
                                       max = 1,
                                       value = 0.6),
-                          sliderInput("population",
+                                 title = "The proportion of the population that have been vaccinated, the number that are vaccinated can be calulated by multiplying the proportion vaccinated by the population. Try to find the vaccination thresold at which an epidemic cannot occur."),
+                          tipify(sliderInput("population",
                                       "No. of pebbles:",
                                       min = 1,
                                       max = 1000,
                                       value = 100),
-                          sliderInput("simulations",
+                                 title = "How many pebbles do you want to simulate? Does this alter the trend, or does it just alter the epidemic size? Note: A high population will take longer to compute."
+                                 ),
+                          tipify(sliderInput("simulations",
                                       "No. of simulations:",
                                       min = 1,
                                       max = 1000,
                                       value = 10),
-                          selectInput("sumstat", 
+                                 title = "How many times to repeat the game. What is the effect of increasing this? Note: A high number of simulations will take longer to compute"
+                          ),
+                          tipify(selectInput("sumstat", 
                                       "Summary statistic to plot:",
                                       list(`Cumulative no. of pebbles` = 
                                              "`Cumulative no. of pebbles`",
                                            `No. of pebbles` = 
                                              "`No. of pebbles`")
                           ),
-                          actionButton("play_button", "Simulate", 
-                                       style="color: #fff; background-color: #337ab7; border-color: #2e6da4"), 
+                          title = "The cumulative number of pebbles gives the clearest picture of the final epidemic size. The number of pebbles shows how the epidemic evolves over time"
+                          ),
+                          tipify(actionButton("play_button", "Simulate", 
+                                       style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                 title = "What effect does repeating the game with the same parameters have?"
+                          ),
                           title = 'Game Parameters', 
                           status = "primary", solidHeader = FALSE,
                           collapsible = TRUE,
@@ -73,23 +86,29 @@ body <- dashboardBody(
                      )),
               column(width = 8,
                      box(width = NULL, 
-                         plotOutput("pebble_plot"),
-                         collapsible = TRUE,
-                         title = "Plot",
-                         footer = "Plot of each simulated game, overlayed with a trend line.",
-                         status = "primary", 
-                         solidHeader = FALSE),
+                         tipify(plotOutput("pebble_plot"),
+                                title = "Plot of the simulations of the game, overlayed with a trend line. What effect does varying the parameters have?"),
+                     collapsible = TRUE,
+                     title = "Plot",
+                     status = "primary", 
+                     solidHeader = FALSE
+                     ),
                      tabBox( width = NULL,
                              title = "Tables",
                              side = "right",
                              tabPanel(title = "Summary Statistics",
                                       id = "tabletab1",
-                                      tableOutput("pebble_table"),
-                                      footer = "Summary statistics for the pebble game."
+                                      tipify(tableOutput("pebble_table"),
+                                             title = "Summary statistics for the pebble game. How does varying the parameters effect these? Do these summary measures match what you see on the plot above?",
+                                             placement = "left"
+                                      )
                              ),
                              tabPanel(title = "Simulation Data",
                                       id = "tabletab2",
-                                      dataTableOutput("results_table"),
+                                      tipify(dataTableOutput("results_table"),
+                                             title = "Simulation results from playing the pebble game, with your specified parameters. Download this with the button below and see what patterns you can find.",
+                                             placement = "left"
+                                      ),
                                       downloadButton('downloadDatatable', 'Download')
                                       )
                      )
@@ -100,46 +119,60 @@ body <- dashboardBody(
             fluidRow(
               column(width = 4, 
                      box( width = NULL,
-                          sliderInput("r0_prim",
+                          tipify(sliderInput("r0_prim",
                                       "Primary disease R0:",
                                       min = 1,
                                       max = 50,
                                       value = 3),
-                          sliderInput("r0_sec",
+                                 title = "The basic reproduction rate (R0) is used to measure the transmission potential of a disease. It is thought of as the number of secondary infections produced by a typical case of an infection in a population that is totally susceptible."
+                          ),
+                          tipify(sliderInput("r0_sec",
                                       "Secondary disease R0:",
                                       min = 1,
                                       max = 50,
                                       value = 12),
-                          sliderInput("no_in_first_gen_com",
+                                 title = "The basic reproduction rate (R0) is used to measure the transmission potential of a disease. It is thought of as the number of secondary infections produced by a typical case of an infection in a population that is totally susceptible."
+                          ),
+                          tipify(sliderInput("no_in_first_gen_com",
                                       "No. in first generation:",
                                       min = 1,
                                       max = 50,
                                       value = 1),
-                          sliderInput("prop_vac_com",
+                                 title = "The number of infected pebbles introduced into the population. Does altering this have any effect on the epidemic dynamics?"),
+                          tipify(sliderInput("prop_vac_com",
                                       "Proportion vaccinated:",
                                       min = 0,
                                       max = 1,
                                       value = 0.6),
-                          sliderInput("population_com",
+                                 title = "The proportion of the population that have been vaccinated, the number that are vaccinated can be calulated by multiplying the proportion vaccinated by the population. Try to find the vaccination thresold at which an epidemic cannot occur."),
+                          tipify(sliderInput("population_com",
                                       "No. of pebbles:",
                                       min = 1,
                                       max = 1000,
                                       value = 100),
-                          sliderInput("simulations_com",
+                                 title = "How many pebbles do you want to simulate? Does this alter the trend, or does it just alter the epidemic size? Note: A high population will take longer to compute."
+                          ),
+                          tipify(sliderInput("simulations_com",
                                       "No. of simulations:",
                                       min = 1,
                                       max = 1000,
                                       value = 10),
-                          selectInput("sumstat_com", 
+                                 title = "How many times to repeat the game. What is the effect of increasing this? Note: A high number of simulations will take longer to compute"
+                          ),
+                          tipify(selectInput("sumstat_com", 
                                       "Summary statistic to plot:",
                                       list(`Cumulative no. of pebbles` = 
                                              "`Cumulative no. of pebbles`",
                                            `No. of pebbles` = 
                                              "`No. of pebbles`")
                           ),
-                          actionButton("compare_button", "Simulate", 
+                          title = "The cumulative number of pebbles gives the clearest picture of the final epidemic size. The number of pebbles shows how the epidemic evolves over time"
+                          ),
+                          tipify(actionButton("compare_button", "Simulate", 
                                        style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
-                          title = 'Disease Parameters', 
+                                 title = "What effect does repeating the game with the same parameters have?"
+                          ),
+                          title = "Disease Parameters", 
                           status = "primary", solidHeader = FALSE,
                           collapsible = TRUE,
                           collapsed = TRUE
@@ -151,44 +184,56 @@ body <- dashboardBody(
                          tabPanel(
                            title = "Comparision",
                            id = "tabletab1",
-                           plotOutput("com_plot"),
-                           footer = "Plot of each simulated disease, overlayed with a trend line."
+                           tipify(plotOutput("com_plot"),
+                                  title = "Comparision plot of simulations of the game for both diseases, overlayed with a trend line. Compare the difference between the trend line gradients, what does this mean?")
                          ),
                          tabPanel(
                            title = "Primary Disease",
                            id = "tabletab2",
-                           plotOutput("prim_plot"),
-                           footer = "Plot of each simulated game, overlayed with a trend line."
+                           tipify(plotOutput("prim_plot"),
+                                  title = "Plot of the simulations of the game for the primary disease, overlayed with a trend line. What effect does varying the other parameters have?")
                          ),
                          tabPanel(
                            title = "Secondary Disease",
                            id = "tabletab3",
-                           plotOutput("sec_plot"),
-                           footer = "Plot of each simulated game, overlayed with a trend line."
-                         )),
+                           tipify(plotOutput("sec_plot"),
+                                  title = "Plot of the simulations of the game for the primary disease, overlayed with a trend line. What effect does varying the other parameters have?")
+                           )
+                         ),
                      tabBox( width = NULL,
                              title = "Primary Disease",
                              side = "right",
                              tabPanel(title = "Summary Table",
-                                      tableOutput("prim_sum_tab"), 
-                                      id = "tabletab1",
-                                      footer = "Summary statistics for the primary disease." ),
+                                      tipify(tableOutput("prim_sum_tab"), 
+                                             title = "Summary statistics for the pebble game, played with the primary disease. How does varying the parameters effect these? Do these summary measures match what you see on the plot above and how do they correspond with those from the secondary disease?",
+                                             placement = "left"
+                                      ),
+                                      id = "tabletab1"
+                                      ),
                              tabPanel(title = "Simulation Table",
                                       id = "tabletab2",
-                                      dataTableOutput("prim_results_table"),
+                                      tipify(dataTableOutput("prim_results_table"),
+                                             title = "Simulation results from playing the pebble game with the primary disease, and your specified parameters. Download this with the button below and see what patterns you can find.",
+                                             placement = "left"
+                                      ),
                                       downloadButton("downloadPrimDatatable", "Download"))
                      ),
                      tabBox( width = NULL,
                              title = "Secondary Disease",
                              side = "right",
                              tabPanel(title = "Summary Table",
-                                      tableOutput("sec_sum_tab"),
-                                      id = "tabletab1",
-                                      footer = "Summary statistics for the primary disease."
+                                      tipify(tableOutput("sec_sum_tab"),
+                                             title = "Summary statistics for the pebble game, played with the secondary disease. How does varying the parameters effect these? Do these summary measures match what you see on the plot above and how do they correspond with those from the primary disease?",
+                                             placement = "left"
+                                      ),
+                                      id = "tabletab1"
                              ),
                              tabPanel(title = "Simulation Table",
                                       id = "tabletab2",
-                                      dataTableOutput("sec_results_table"),
+                                      tipify(dataTableOutput("sec_results_table"),
+                                             title = "Simulation results from playing the pebble game with the secondary disease, and your specified parameters. Download this with the button below and see what patterns you can find.",
+                                             placement = "left"
+                             ),
                                       downloadButton("downloadSecDatatable", "Download")
                              )
                      )
