@@ -24,7 +24,9 @@ shinyServer(function(input, output) {
                                  prop_vac = input$prop_vac, 
                                  population = input$population,
                                  simulations = input$simulations) %>%
-      summarise_pebble_game_sim(simulations = input$simulations)
+      summarise_pebble_game_sim(simulations = input$simulations,
+                                population = input$population,
+                                prop_vac = input$prop_vac)
     
     return(sim)
   })
@@ -39,7 +41,9 @@ shinyServer(function(input, output) {
                                  prop_vac = input$prop_vac_com, 
                                  population = input$population_com,
                                  simulations = input$simulations_com) %>%
-      summarise_pebble_game_sim(simulations = input$simulations)
+      summarise_pebble_game_sim(simulations = input$simulations_com,
+                                population = input$population_com,
+                                prop_vac = input$prop_vac_com)
     
     return(prim_sim)
   })
@@ -54,7 +58,9 @@ shinyServer(function(input, output) {
                                  prop_vac = input$prop_vac_com, 
                                  population = input$population_com,
                                  simulations = input$simulations_com) %>%
-      summarise_pebble_game_sim(simulations = input$simulations)
+      summarise_pebble_game_sim(simulations = input$simulations_com,
+                                population = input$population_com,
+                                prop_vac = input$prop_vac_com)
     
     return(sec_sim)
   })

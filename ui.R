@@ -71,9 +71,11 @@ body <- dashboardBody(
                                       list(`Cumulative no. of pebbles` = 
                                              "`Cumulative no. of pebbles`",
                                            `No. of pebbles` = 
-                                             "`No. of pebbles`")
+                                             "`No. of pebbles`",
+                                           `Percentage (%) of unvaccinated infected` = 
+                                             "`Percentage (%) of unvaccinated infected`")
                           ),
-                          title = "The cumulative number of pebbles (i.e. the rolling total) gives the clearest picture of the final epidemic size. The number of pebbles (in each generation) shows how the epidemic evolves over time"
+                          title = "The cumulative number of pebbles (i.e. the rolling total) gives the clearest picture of the final epidemic size. The number of pebbles (in each generation) shows how the epidemic evolves over time. The percentage of unvaccinated infected allows diseases to be compared more easily."
                           ),
                           tipify(actionButton("play_button", "Simulate", 
                                        style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
@@ -161,12 +163,14 @@ body <- dashboardBody(
                           ),
                           tipify(selectInput("sumstat_com", 
                                       "Summary statistic to plot:",
-                                      list(`Cumulative no. of pebbles` = 
+                                      list(`Percentage (%) of unvaccinated infected` = 
+                                             "`Percentage (%) of unvaccinated infected`",
+                                           `Cumulative no. of pebbles` = 
                                              "`Cumulative no. of pebbles`",
                                            `No. of pebbles` = 
                                              "`No. of pebbles`")
                           ),
-                          title = "The cumulative number of pebbles (i.e. the rolling total) gives the clearest picture of the final epidemic size. The number of pebbles (in each generation) shows how the epidemic evolves over time"
+                          title = "The cumulative number of pebbles (i.e. the rolling total) gives the clearest picture of the final epidemic size. The number of pebbles (in each generation) shows how the epidemic evolves over time. The percentage of unvaccinated infected allows diseases to be compared more easily."
                           ),
                           tipify(actionButton("compare_button", "Simulate", 
                                        style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),

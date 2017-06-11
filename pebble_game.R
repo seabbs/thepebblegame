@@ -145,8 +145,18 @@ multi_sim_pebble_game <- function(r0,
 }
 
 ## generate summaries by generation for data - count
-summarise_pebble_game_sim <- function(df, simulations) {
-  df_count <- df %>% 
+summarise_pebble_game_sim <- function(df, 
+                                      simulations,
+                                      population,
+                                      prop_vac) {
+ 
+  ## Parameter check
+  population <- population %>% as.numeric
+  
+  ##Calc number unvaccinated
+  no_unvac <- round((1 - prop_vac) * population, digits = 0)
+  
+   df_count <- df %>% 
     filter(vaccinated %in% "no",
            !is.na(generation)) %>% 
     group_by(simulation, generation) %>% 
@@ -174,15 +184,17 @@ summarise_pebble_game_sim <- function(df, simulations) {
             )
     )
     
-  ## Calculate cumulative sum
+  ## Calculate cumulative sum and percentage of unvaccinated infected
   df_cum <- df_count %>% 
     bind_rows(zero_generations) %>% 
     group_by(simulation) %>% 
     mutate(cumsum = cumsum(n)) %>%
+    mutate(perinfect = round(cumsum / no_unvac * 100, digits = 0)) %>% 
     rename(Generation = generation,
            Simulation = simulation,
            `No. of pebbles` = n,
-           `Cumulative no. of pebbles` = cumsum)
+           `Cumulative no. of pebbles` = cumsum,
+           `Percentage (%) of unvaccinated infected` = perinfect)
   
   return(df_cum)
 }
@@ -271,7 +283,7 @@ summary_table <- function(df,
     add_sum_stat(stat_vect = total_no_infected_pebbles$total_infect, 
                  sum_measure = "Total no. of infected")
   
-  ## Number vaccinated
+  ## Number unvaccinated
   no_unvac <- round((1 - prop_vac) * population, digits = 0)
   
   ## Calculate percentage of susceptible pop that are infected
