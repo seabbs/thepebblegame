@@ -103,7 +103,7 @@ shinyServer(function(input, output) {
   output$prim_plot <- renderPlot({
     ## Run simulations, summarise and plot see pebble_game.R
     plot <- prim_sim() %>%
-      plot_pebbles(y = input$sumstat)
+      plot_pebbles(y = input$sumstat_com)
     
     plot
   })
@@ -111,7 +111,7 @@ shinyServer(function(input, output) {
   output$sec_plot <- renderPlot({
     ## Run simulations, summarise and plot see pebble_game.R
     plot <- sec_sim() %>%
-      plot_pebbles(y = input$sumstat,
+      plot_pebbles(y = input$sumstat_com,
                    colour = "firebrick2")
     
     plot
