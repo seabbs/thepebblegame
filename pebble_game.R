@@ -199,10 +199,28 @@ summarise_pebble_game_sim <- function(df,
   return(df_cum)
 }
 
+##Add mean and ci to df 
+df_mean_ci <- function(df, y, group_by) {
+  ## Estimate mean and ci's
+  df_trans <- df %>% 
+    group_by_(.dots = group_by) %>% 
+    mutate_(mean = paste0("mean(", y, ")")) %>% 
+    mutate_(sd = paste0("sd(", y, ")")) %>%
+    mutate_(sqrt_sample = paste0("sqrt(length(", y, "))")) %>% 
+    ungroup %>% 
+    mutate (se = sd / sqrt_sample,
+            lci = mean - 1.96 * se,
+            uci = mean + 1.96 * se) 
+  
+  return(df_trans)
+}
 
 ## Make ggplot for playing the game 
 plot_pebbles <- function(df, y, colour =  "dodgerblue2") {
   
+df <- df %>% 
+  df_mean_ci(y = y, group_by = c("Generation"))
+    
   df %>% 
     ggplot(aes_string(x = "Generation", y = y)) +
     geom_point(alpha = 0.2, 
@@ -211,7 +229,13 @@ plot_pebbles <- function(df, y, colour =  "dodgerblue2") {
     geom_line(alpha = 0.2, 
               colour = colour, 
               aes(group = Simulation)) +
-    geom_smooth(method = "loess", alpha = 0.6, colour = colour) + 
+    geom_line(aes(x = Generation, y = mean),
+              colour = colour,
+              alpha = 1,
+              size = 1.5) +
+    geom_ribbon(aes(x = Generation, ymin = lci, ymax = uci),
+                fill = "grey",
+                alpha = 0.4) + 
     theme_minimal() -> plot
   
   return(plot)
@@ -219,13 +243,30 @@ plot_pebbles <- function(df, y, colour =  "dodgerblue2") {
 
 ##  Make a ggplot for comparing diseases
 plot_pebbles_compare <- function(df, y) {
+
+  df <- df %>% 
+    df_mean_ci(y = y, group_by = c("Disease", "Generation"))
   
   df %>% 
-    ggplot(aes_string(x = "Generation", y = y, colour = "Disease", group = "interaction(Disease, Simulation)")) +
-    geom_point(alpha = 0.2) +
-    geom_line(alpha = 0.2) +
-    geom_smooth(method = "loess", alpha = 0.6, aes(group = Disease)) +
+    ggplot(aes_string(x = "Generation",
+                      y = y,
+                      colour = "Disease",
+                      group = "interaction(Disease, Simulation)")) +
+    geom_point(alpha = 0.2, 
+               colour = colour) +
+    geom_line(alpha = 0.2, 
+              colour = colour) +
+    geom_line(aes(x = Generation, 
+                  y = mean),
+              alpha = 1,
+              size = 1.5) +
     scale_colour_manual(values=c("dodgerblue2", "firebrick2")) +
+    geom_ribbon(aes(x = Generation,
+                    ymin = lci, 
+                    ymax = uci,
+                    group = Disease),
+                fill = "grey",
+                alpha = 0.4) + 
     theme_minimal() +
     theme(legend.position = "bottom") -> plot
   
@@ -322,6 +363,6 @@ sim_then_plot_pebble_game <- function(r0 = 3,
 
 ## Summary of functions
 ## df <- multi_sim_pebble_game(r0 = 3, no_in_first_gen = 1,prop_vac = 0.6, population = 1000, simulations = 100, verbose = FALSE) 
-## df_count <- df %>% summarise_pebble_game_sim
+## df_count <- df %>% summarise_pebble_game_sim(simulations = 100, population = 1000, prop_vac = 0.6)
 ## plot_pebbles(df_count, y = "`No. of pebbles`") %>% ggplotly
 ## plot_pebbles(df_count, y = "`Cumulative no. of pebbles`") %>% ggplotly

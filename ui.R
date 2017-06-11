@@ -89,7 +89,7 @@ body <- dashboardBody(
               column(width = 8,
                      box(width = NULL, 
                          tipify(plotOutput("pebble_plot"),
-                                title = "Plot of the simulations of the game, overlayed with a trend line. What effect does varying the parameters have?"),
+                                title = "Plot of the simulations of the game, overlayed with the mean and 95% confidence intervals. What effect does varying the parameters have?"),
                      collapsible = TRUE,
                      title = "Plot",
                      status = "primary", 
@@ -189,19 +189,19 @@ body <- dashboardBody(
                            title = "Comparision",
                            id = "tabletab1",
                            tipify(plotOutput("com_plot"),
-                                  title = "Comparision plot of simulations of the game for both diseases, overlayed with a trend line. Compare the difference between the trend line gradients, what does this mean?")
+                                  title = "Comparision plot of simulations of the game for both diseases, overlayed with the mean and 95% confidence intervals. Compare the difference between the trend line gradients, what does this mean?")
                          ),
                          tabPanel(
                            title = "Primary Disease",
                            id = "tabletab2",
                            tipify(plotOutput("prim_plot"),
-                                  title = "Plot of the simulations of the game for the primary disease, overlayed with a trend line. What effect does varying the other parameters have?")
+                                  title = "Plot of the simulations of the game for the primary disease, overlayed with the mean and 95% confidence intervals. What effect does varying the other parameters have?")
                          ),
                          tabPanel(
                            title = "Secondary Disease",
                            id = "tabletab3",
                            tipify(plotOutput("sec_plot"),
-                                  title = "Plot of the simulations of the game for the primary disease, overlayed with a trend line. What effect does varying the other parameters have?")
+                                  title = "Plot of the simulations of the game for the primary disease, overlayed with the mean and 95% confidence intervals. What effect does varying the other parameters have?")
                            )
                          ),
                      tabBox( width = NULL,
