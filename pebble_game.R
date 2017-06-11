@@ -252,10 +252,8 @@ plot_pebbles_compare <- function(df, y) {
                       y = y,
                       colour = "Disease",
                       group = "interaction(Disease, Simulation)")) +
-    geom_point(alpha = 0.2, 
-               colour = colour) +
-    geom_line(alpha = 0.2, 
-              colour = colour) +
+    geom_point(alpha = 0.2) +
+    geom_line(alpha = 0.2) +
     geom_line(aes(x = Generation, 
                   y = mean),
               alpha = 1,
