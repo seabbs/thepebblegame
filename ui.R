@@ -31,6 +31,7 @@ body <- dashboardBody(
     ),
     tabItem(tabName = "pebble_game",
             fluidRow(
+              tags$head(includeScript("google-analytics.js")),
               column(width = 4, 
                      box( width = NULL,
                           tipify(sliderInput("r0",
