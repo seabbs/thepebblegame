@@ -22,40 +22,36 @@ no_in_gen <- function(df, vac_status = 'no') {
 ## Function to run a pebble game simulation
 gen_pebble_game <- function(df, generation_no, r0, no_in_first_gen) {
   ##define sampled population
-  df_sampled <- df %>% 
-    filter(!is.na(generation))
+  df_sampled <- filter(df, !is.na(generation))
   
   ## Calculated generation number
   if (generation_no > 1) {
-    no_in_generation <- df_sampled %>% 
-      no_in_gen
+    no_in_generation <- no_in_gen(df_sampled)
   } else {
     no_in_generation <- no_in_first_gen
   }
   
   ## Restrict to unsampled pebbles
-  df_unsampled <- df %>% 
-    filter(is.na(generation))
+  df_unsampled <- filter(df, is.na(generation))
   
   ## Sample pebbles
   no_sample <- no_in_generation * r0
   
   if (no_sample < length(df_unsampled$id)) {
-    pebble_sample <- df_unsampled$id %>% 
-      sample(no_sample, replace = FALSE)
+    pebble_sample <- sample(df_unsampled$id, no_sample, replace = FALSE)
   }else {
     pebble_sample <- df_unsampled$id
   }
   
   
-  df_unsampled <- df_unsampled %>% 
-    mutate(generation = generation %>% 
-             replace(id %in% pebble_sample, generation_no)
+  df_unsampled <- mutate(df_unsampled, 
+                         generation = replace(generation, 
+                                              id %in% pebble_sample,
+                                              generation_no)
     )
   
   ##Combine held back population with sampled population
-  df <- df_sampled %>% 
-    bind_rows(df_unsampled)
+  df <- bind_rows(df_sampled, df_unsampled)
   
   return(df)
 }
@@ -87,26 +83,24 @@ pebble_game <- function(r0,
   ## Repeatedly sample pebbles
   while (no_left_to_infect > 0 & no_in_generation > 0) {
     ## Update pebbles
-    pebbles <- pebbles %>% 
-      gen_pebble_game(generation_no = generation_no, 
+    pebbles <- gen_pebble_game(pebbles,
+                      generation_no = generation_no, 
                       r0 = r0,
                       no_in_first_gen =  no_in_first_gen)
     
     ## Check if there are any unvaccinated pebbles left
-    no_left_to_infect <- pebbles %>% 
-      filter(is.na(generation),
+    no_left_to_infect <- filter(pebbles, is.na(generation),
              vaccinated %in% "no") %>% 
       nrow
     
     ## Check if there are any unvaccinated pebbles
     ## in the current generation
-    no_in_generation <- pebbles %>% 
-      no_in_gen
+    no_in_generation <- no_in_gen(pebbles)
     
     ## Advance generation number
     generation_no <- generation_no + 1
     
-    if(verbose) {
+    if (verbose) {
       message("The generation number is:",  generation_no)
     }
   
@@ -208,9 +202,9 @@ df_mean_ci <- function(df, y, group_by) {
     mutate_(sd = paste0("sd(", y, ")")) %>%
     mutate_(sqrt_sample = paste0("sqrt(length(", y, "))")) %>% 
     ungroup %>% 
-    mutate (se = sd / sqrt_sample,
-            lci = mean - 1.96 * se,
-            uci = mean + 1.96 * se) 
+    mutate(se = sd / sqrt_sample,
+           lci = mean - 1.96 * se,
+           uci = mean + 1.96 * se) 
   
   return(df_trans)
 }
