@@ -322,10 +322,10 @@ summary_table <- function(df,
   ## Calculate percentage of susceptible pop that are infected
   ## Tidy results
   sum_tab <- sum_tab %>%
-    mutate_each(funs(as.character(as.integer(round(., digits = 0)))), Mean, Median, `25% Quantile`, `75% Quantile`) %>% 
+    mutate_at(vars(Mean, Median, `25% Quantile`, `75% Quantile`), funs(as.character(as.integer(round(., digits = 0))))) %>% 
     bind_rows(sum_tab %>%
                 filter(`Summary Measure` %in% "Total no. of infected") %>% 
-                mutate_each(funs(paste0(round(. / no_unvac * 100, digits = 0), "%")), Mean, Median, `25% Quantile`, `75% Quantile`) %>% 
+                mutate_at(vars(Mean, Median, `25% Quantile`, `75% Quantile`), funs(paste0(round(. / no_unvac * 100, digits = 0), "%"))) %>% 
                 mutate(`Summary Measure` = "Percentage of unvaccinated infected")
     )
 
