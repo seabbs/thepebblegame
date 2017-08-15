@@ -1,9 +1,13 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 The Pebble Game
 ===============
 
-[The Pebble Game](http://seabbs.co.uk/shiny/thepebblegame) ([alternative link](https://seabbs.shinyapps.io/thepebblegame/)) is a shiny application that simulates the pebble game. This is a simple game that has been developed by [BIDD](http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/) at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccination and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease.
+[The Pebble Game](http://seabbs.co.uk/shiny/thepebblegame) ([alternative link](https://seabbs.shinyapps.io/thepebblegame/)) is a shiny application that simulates the pebble game. This is a simple game that has been developed by [BIDD](http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/) at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease. For a more detailed explanation of the mechanics of the game, examples of using the app, suggested questions, and instructions for local installation continue reading. Otherwise enjoy exploring a simple system with complex dynamics!
+
+Using the app
+-------------
+
+Whilst the Pebble Game has been designed to be user friendly, I've written a [blog post](https://www.samabbott.co.uk/post/using-the-pebble-game/) that takes you through using the app in more detail. If in using the app you discover something that you think is worth sharing then please contact me either via [twitter](https://twitter.com/seabbs) or [email](https://www.samabbott.co.uk/#contact).
 
 Some suggested questions
 ------------------------
