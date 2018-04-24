@@ -1,5 +1,5 @@
 ### Pebble game outline
-library(tidyverse)
+source("load_packages.R")
 
 ### Input
 ## Number of simulations - slider

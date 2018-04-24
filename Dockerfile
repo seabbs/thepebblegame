@@ -13,7 +13,9 @@ RUN apt-get update && \
     && apt-get clean
 
 ## Install R packages - MRAN
-RUN Rscript -e 'install.packages(c("shiny", "shinydashboard", "shinyBS", "tidyverse", "rmarkdown"))'
+RUN Rscript -e 'install.packages(c("shiny", "shinydashboard", "shinyBS", "rmarkdown"))'
+
+RUN Rscript -e 'install.packages(c("dplyr", "tidyr", "tibble", "ggplot2"))'
 
 ADD . home/thepebblegame
 
