@@ -21,5 +21,4 @@ WORKDIR  home/thepebblegame
 
 EXPOSE 3838
 
-## Create log file
-CMD R -e 'shiny::runApp(port = 3838)'
+CMD ["Rscript", "-e", "shiny::runApp(port = 3838)"]
