@@ -1,8 +1,5 @@
 #Load packages
-library(shiny)
-library(shinydashboard)
-library(shinyBS)
-library(tidyverse)
+source("load_packages.R")
 
 ## Source functions
 source("pebble_game.R")

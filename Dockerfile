@@ -19,8 +19,6 @@ RUN Rscript -e 'install.packages(c("dplyr", "tidyr", "tibble", "ggplot2"))'
 
 ADD . home/thepebblegame
 
-WORKDIR  home/thepebblegame
-
 EXPOSE 3838
 
-CMD ["Rscript", "-e", "shiny::runApp(port = 3838)"]
+CMD Rscript -e 'shiny::runApp("home/thepebblegame", port = 3838)''
