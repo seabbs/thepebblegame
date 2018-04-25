@@ -21,4 +21,4 @@ ADD . home/thepebblegame
 
 EXPOSE 3838
 
-CMD Rscript -e 'shiny::runApp("home/thepebblegame", port = 3838, host = "0.0.0.0")''
+CMD Rscript -e 'shiny::runApp("home/thepebblegame", port = 3838, host = "0.0.0.0")'
