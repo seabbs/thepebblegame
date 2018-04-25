@@ -64,6 +64,7 @@ install.packages("shinyBS")
 install.packages("dplyr")
 install.packages("tidyr")
 install.packages("tibble")
+install.packages("purrr")
 install.packages("ggplot2")
 install.packages("rmarkdown")
 ```

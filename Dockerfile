@@ -17,6 +17,8 @@ RUN Rscript -e 'install.packages(c("shiny", "shinydashboard", "shinyBS", "rmarkd
 
 RUN Rscript -e 'install.packages(c("dplyr", "tidyr", "tibble", "ggplot2"))'
 
+RUN Rscript -e 'install.packages(c("purrr"))'
+
 ADD . home/thepebblegame
 
 EXPOSE 3838
