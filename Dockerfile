@@ -24,3 +24,5 @@ ADD . home/thepebblegame
 EXPOSE 3838
 
 CMD Rscript -e 'shiny::runApp("home/thepebblegame", port = 3838, host = "0.0.0.0")'
+
+Hello I am just a beginner in using the Version control system. So I chose you're repo just so as to practice my "Pulling request" concept \n Peace n/
